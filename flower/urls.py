@@ -21,6 +21,7 @@ from .utils import gen_cookie_secret
 settings = dict(
     template_path=os.path.join(os.path.dirname(__file__), "templates"),
     static_path=os.path.join(os.path.dirname(__file__), "static"),
+    static_url_prefix="/assets/",
     cookie_secret=gen_cookie_secret(),
     login_url='/login',
 )
@@ -71,7 +72,7 @@ handlers = [
     (r"/monitor/completion-time", monitor.TimeToCompletionMonitor),
     (r"/monitor/broker", monitor.BrokerMonitor),
     # Static
-    (r"/static/(.*)", StaticFileHandler,
+    (r"/assets/(.*)", StaticFileHandler,
      {"path": settings['static_path']}),
     # Auth
     (r"/login", auth.LoginHandler),
