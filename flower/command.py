@@ -69,6 +69,12 @@ class FlowerCommand(Command):
               'redirect_uri': options.oauth2_redirect_uri or os.environ.get('GOOGLE_OAUTH2_REDIRECT_URI'),
             }
 
+        if options.passaporte_web:
+            settings["passaporte_web"] = {
+                'key': 'hDJ7jNAfOB',
+                'secret': 'dwJXTHZWr50LFG0jWs0V1rAUWwszQBZA'
+            }
+
         if options.certfile and options.keyfile:
             settings['ssl_options'] = dict(certfile=abs_path(options.certfile),
                                            keyfile=abs_path(options.keyfile))

@@ -5,50 +5,35 @@ import json
 
 import tornado.web
 import tornado.auth
+from tornado.concurrent import return_future
 
 from tornado import httpclient
 
 from ..views import BaseHandler
 
 
-class LoginHandler(BaseHandler, tornado.auth.GoogleOAuth2Mixin):
-    @tornado.web.asynchronous
+class LoginHandler(BaseHandler, tornado.auth.OAuthMixin):
+
+    _OAUTH_REQUEST_TOKEN_URL = "https://sandbox.app.passaporteweb.com.br/sso/initiate/"
+    _OAUTH_ACCESS_TOKEN_URL = "https://sandbox.app.passaporteweb.com.br/sso/token/"
+    _OAUTH_AUTHORIZE_URL = "https://sandbox.app.passaporteweb.com.br/sso/authorize/"
+    _OAUTH_AUTHENTICATE_URL = "https://sandbox.app.passaporteweb.com.br/sso/fetchuserdata/"
+    _OAUTH_NO_CALLBACKS = False
+
+    @tornado.gen.coroutine
     def get(self):
-        redirect_uri = self.settings[self._OAUTH_SETTINGS_KEY]['redirect_uri']
-        if self.get_argument('code', False):
-            self.get_authenticated_user(
-                redirect_uri=redirect_uri,
-                code=self.get_argument('code'),
-                callback=self._on_auth,
-            )
+        if self.get_argument("oauth_token", None):
+            user = yield self.get_authenticated_user()
         else:
-            self.authorize_redirect(
-                redirect_uri=redirect_uri,
-                client_id=self.settings[self._OAUTH_SETTINGS_KEY]['key'],
-                scope=['profile', 'email'],
-                response_type='code',
-                extra_params={'approval_prompt': 'auto'}
+            yield self.authorize_redirect(
+                callback_uri="http://127.0.0.1:5555",
+
             )
 
-    def _on_auth(self, user):
-        if not user:
-            raise tornado.web.HTTPError(500, 'Google auth failed')
-        access_token = user['access_token']
-        response = httpclient.HTTPClient().fetch(
-            'https://www.googleapis.com/plus/v1/people/me',
-            headers={'Authorization': 'Bearer %s' % access_token})
-        email = json.loads(response.body.decode('utf-8'))['emails'][0]['value']
-        if not re.match(self.application.options.auth, email):
-            raise tornado.web.HTTPError(
-                404,
-                "Access denied to '{email}'. "
-                "Please use another account or ask your admin to "
-                "add your email to flower --auth".format(**user))
-
-        self.set_secure_cookie("user", str(email))
-
-        next = self.get_argument('next', '/')
-        self.redirect(next)
+    def _oauth_consumer_token(self):
+        return dict(
+            key=self.settings["passaporte_web"]["key"],
+            secret=self.settings["passaporte_web"]["secret"])
 
 
 class LogoutHandler(BaseHandler):
