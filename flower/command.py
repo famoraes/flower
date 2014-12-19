@@ -72,7 +72,12 @@ class FlowerCommand(Command):
         if options.passaporte_web:
             settings["passaporte_web"] = {
                 'key': 'hDJ7jNAfOB',
-                'secret': 'dwJXTHZWr50LFG0jWs0V1rAUWwszQBZA'
+                'secret': 'dwJXTHZWr50LFG0jWs0V1rAUWwszQBZA',
+                'admins': [
+                    'fabiano.moraes@pull4up.com.br',
+                    'adriano.margarin@pull4up.com.br',
+                    'rodrigo.tassinari@myfreecomm.com.br'
+                ]
             }
 
         if options.certfile and options.keyfile:

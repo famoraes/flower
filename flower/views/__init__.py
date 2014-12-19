@@ -62,9 +62,12 @@ class BaseHandler(tornado.web.RequestHandler):
                 raise tornado.web.HTTPError(401)
 
         # Google OpenID
-        if not self.application.options.auth:
+        if(not self.application.options.auth and not
+            self.application.options.passaporte_web):
             return True
+
         user = self.get_secure_cookie('user')
+
         if user:
             if not isinstance(user, str):
                 user = user.decode()

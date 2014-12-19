@@ -75,6 +75,7 @@ handlers = [
      {"path": settings['static_path']}),
     # Auth
     (r"/login", auth.LoginHandler),
+    (r"/login/authenticate", auth.LoginHandler),
     (r"/logout", auth.LogoutHandler),
 
     # Error
