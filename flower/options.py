@@ -55,6 +55,7 @@ define("natural_time", type=bool, default=True,
        help="show time in relative format")
 define("passaporte_web", type=bool, default=True,
        help="login by passaporte web")
+define("env", type=str, default="sandbox", help="Envrioment")
 
 # deprecated options
 define("url_prefix", type=str, help="base url prefix")

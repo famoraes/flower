@@ -73,12 +73,25 @@ class FlowerCommand(Command):
             settings["passaporte_web"] = {
                 'key': 'hDJ7jNAfOB',
                 'secret': 'dwJXTHZWr50LFG0jWs0V1rAUWwszQBZA',
+                'callback_uri': 'https://sandbox.emites.com.br/admin/celery/login',
+                'base_api': 'https://sandbox.app.passaporteweb.com.br',
                 'admins': [
                     'fabiano.moraes@pull4up.com.br',
                     'adriano.margarin@pull4up.com.br',
                     'rodrigo.tassinari@myfreecomm.com.br'
                 ]
             }
+
+        if options.env == "production":
+            settings["passaporte_web"] = {
+                'callback_uri': 'https://app.emites.com.br/admin/celery/login',
+                'key': 'jip9aL5Cng',
+                'secret': 'yJmKN75uoQrP1kXW65OkBYydHYNEhHR9',
+                'base_api': 'https://app.passaporteweb.com.br'
+            }
+
+        if options.env == 'dev':
+            settings["passaporte_web"]["callback_uri"] = 'http://127.0.0.1:5555/login'
 
         if options.certfile and options.keyfile:
             settings['ssl_options'] = dict(certfile=abs_path(options.certfile),

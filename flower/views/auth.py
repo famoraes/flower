@@ -20,11 +20,20 @@ from ..views import BaseHandler
 
 class LoginHandler(BaseHandler, tornado.auth.OAuthMixin):
 
-    _OAUTH_REQUEST_TOKEN_URL = "https://sandbox.app.passaporteweb.com.br/sso/initiate/"
-    _OAUTH_ACCESS_TOKEN_URL = "https://sandbox.app.passaporteweb.com.br/sso/token/"
-    _OAUTH_AUTHORIZE_URL = "https://sandbox.app.passaporteweb.com.br/sso/authorize/"
-    _OAUTH_AUTHENTICATE_URL = "https://sandbox.app.passaporteweb.com.br/sso/fetchuserdata/"
+    # _OAUTH_REQUEST_TOKEN_URL = "https://sandbox.app.passaporteweb.com.br/sso/initiate/"
+    # _OAUTH_ACCESS_TOKEN_URL = "https://sandbox.app.passaporteweb.com.br/sso/token/"
+    # _OAUTH_AUTHORIZE_URL = "https://sandbox.app.passaporteweb.com.br/sso/authorize/"
+    # _OAUTH_AUTHENTICATE_URL = "https://sandbox.app.passaporteweb.com.br/sso/fetchuserdata/"
     _OAUTH_NO_CALLBACKS = False
+
+    def __init__(self, *args, **kwargs):
+        super(LoginHandler, self).__init__(*args, **kwargs)
+
+        self.base_url = self.settings["passaporte_web"]["base_api"]
+        self._OAUTH_REQUEST_TOKEN_URL = self.base_url + "/sso/initiate/"
+        self._OAUTH_ACCESS_TOKEN_URL = self.base_url + "/sso/token/"
+        self._OAUTH_AUTHORIZE_URL = self.base_url + "/sso/authorize/"
+        self._OAUTH_AUTHENTICATE_URL = self.base_url + "/sso/fetchuserdata/"
 
     def _get_credentials(self):
         return OAuth1Service(
@@ -56,7 +65,7 @@ class LoginHandler(BaseHandler, tornado.auth.OAuthMixin):
             self.redirect(self.get_argument("next", "/"))
         else:
             self.authorize_redirect(
-                callback_uri="http://127.0.0.1:5555/login",
+                callback_uri=self.settings["passaporte_web"]["callback_uri"]
             )
 
     def get_authenticated_user(self):
