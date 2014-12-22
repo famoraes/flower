@@ -20,10 +20,6 @@ from ..views import BaseHandler
 
 class LoginHandler(BaseHandler, tornado.auth.OAuthMixin):
 
-    # _OAUTH_REQUEST_TOKEN_URL = "https://sandbox.app.passaporteweb.com.br/sso/initiate/"
-    # _OAUTH_ACCESS_TOKEN_URL = "https://sandbox.app.passaporteweb.com.br/sso/token/"
-    # _OAUTH_AUTHORIZE_URL = "https://sandbox.app.passaporteweb.com.br/sso/authorize/"
-    # _OAUTH_AUTHENTICATE_URL = "https://sandbox.app.passaporteweb.com.br/sso/fetchuserdata/"
     _OAUTH_NO_CALLBACKS = False
 
     def __init__(self, *args, **kwargs):
