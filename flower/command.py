@@ -83,12 +83,10 @@ class FlowerCommand(Command):
             }
 
         if options.env == "production":
-            settings["passaporte_web"] = {
-                'callback_uri': 'https://app.emites.com.br:5555/login',
-                'key': 'jip9aL5Cng',
-                'secret': 'yJmKN75uoQrP1kXW65OkBYydHYNEhHR9',
-                'base_api': 'https://app.passaporteweb.com.br'
-            }
+            settings["passaporte_web"]["callback_uri"] = "https://app.emites.com.br:5555/login"
+            settings["passaporte_web"]["key"] = "jip9aL5Cng"
+            settings["passaporte_web"]["secret"] = "yJmKN75uoQrP1kXW65OkBYydHYNEhHR9"
+            settings["passaporte_web"]["base_api"] = "https://app.passaporteweb.com.br"
 
         if options.env == 'dev':
             settings["passaporte_web"]["callback_uri"] = 'http://127.0.0.1:5555/login'
