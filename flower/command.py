@@ -73,7 +73,7 @@ class FlowerCommand(Command):
             settings["passaporte_web"] = {
                 'key': 'hDJ7jNAfOB',
                 'secret': 'dwJXTHZWr50LFG0jWs0V1rAUWwszQBZA',
-                'callback_uri': 'https://sandbox.emites.com.br/admin/celery/login',
+                'callback_uri': 'https://sandbox.emites.com.br:5555/login',
                 'base_api': 'https://sandbox.app.passaporteweb.com.br',
                 'admins': [
                     'fabiano.moraes@pull4up.com.br',
@@ -84,7 +84,7 @@ class FlowerCommand(Command):
 
         if options.env == "production":
             settings["passaporte_web"] = {
-                'callback_uri': 'https://app.emites.com.br/admin/celery/login',
+                'callback_uri': 'https://app.emites.com.br:5555/login',
                 'key': 'jip9aL5Cng',
                 'secret': 'yJmKN75uoQrP1kXW65OkBYydHYNEhHR9',
                 'base_api': 'https://app.passaporteweb.com.br'
