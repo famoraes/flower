@@ -2,4 +2,4 @@ celery
 tornado
 babel
 pytz
-rauth==1.7.1
+rauth==0.7.1
