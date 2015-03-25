@@ -1,5 +1,5 @@
-celery>=2.5.0
-tornado>=4.0.0
+celery
+tornado
 babel
 pytz
-rauth
+rauth==1.7.1
